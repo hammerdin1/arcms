@@ -1,0 +1,169 @@
+<head>
+  <title>Contact Management System</title>
+</head>
+
+<body>
+	{{> pages}}
+</body>
+
+<template name="pages"> <!-- Navigates pages -->
+{{#if loggedIn}} 
+  {{#if clicked}}
+    {{#if detailed}}
+      {{> homeLogin}} <!-- If user is logged in, go to the homeLogin page-->
+    {{else}}
+      {{> contactDetails}}  <!-- The user clicked on a contact to view details-->
+    {{/if}}	
+  {{else}}
+    {{> addContact}} <!-- Goes to addContact page-->
+  {{/if}}
+{{else}}
+  {{#if clickedLogin}}  <!--user clicked login button on home screen -->
+    {{> loginHome}}  <!-- navigate to loginHome page -->
+  {{else}}
+    {{#if clickedCreate}}  <!--user clicked create button on home screen -->
+	  {{> loginCreate}}  <!-- navigate to loginCreate page -->
+	{{else}}
+      {{> home}}<!-- if user is not logged in, go to home page-->
+	{{/if}}
+  {{/if}}
+{{/if}}
+</template>
+	
+<template name="home"> <!-- Home page before logging in-->
+    <header class="homeHeader">
+      <h1>Welcome to the Contact Management System</h1>
+	  <h3>Login or create an account to begin.</h3>
+	  <center>
+		<input type="button" class="loginButton" value="Login"/>&nbsp;&nbsp;<input type="button" class="createButton" value="Create"/><br />
+		<br />
+	  </center>
+    </header>
+</template>
+
+<template name="loginHome"> <!-- Login page -->
+    <header class="homeHeader">
+      <h1>Login</h1>
+	  <center>
+	    <form class="login-home">
+		{{#if emailInvalid}} <!-- user entered invalid email -->
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;
+		<strong>Email:</strong>&nbsp;&nbsp;<input type="email" name="username" required />&nbsp;&nbsp;*Email invalid<br />
+		<br />
+		{{else}}
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Email:</strong>&nbsp;&nbsp;<input type="email" name="username" required /><br />
+		<br />
+		{{/if}}
+		
+		{{#if wrong}} <!-- user entered wrong password -->
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  <strong>Password:</strong>&nbsp;<input type="password" name="password" title="Must be at least 4 characters" pattern=".{4,}" required />&nbsp;&nbsp;*Password incorrect<br />
+		  <br />
+		{{else}}
+		  <strong>Password:</strong>&nbsp;<input type="password" name="password" title="Must be at least 4 characters" pattern=".{4,}" required /><br />
+		  <br />
+		{{/if}}
+		<input type="submit" value="Login"/>&nbsp;&nbsp;<input type="button" class="back" value="Back"/><br />
+		<br />
+		</form>
+	  </center>
+    </header>
+</template>
+
+<template name="loginCreate"> <!-- Create account page -->
+    <header class="homeHeader">
+      <h1>Create account</h1>
+	  <center>
+	    <form class="login-create">
+	    {{#if emailTaken}} <!-- user entered email that is being used-->
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;
+		<strong>Email:</strong>&nbsp;&nbsp;<input type="email" name="username" required />&nbsp;&nbsp;*Email taken<br />
+		<br />
+		{{else}}
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Email:</strong>&nbsp;&nbsp;<input type="email" name="username" required /><br />
+		  <br />
+		{{/if}}
+		<strong>Password:</strong>&nbsp;<input type="password" name="password" title="Must be at least 4 characters" pattern=".{4,}" required /><br />
+		<br />
+		<input type="submit" value="Create"/>&nbsp;&nbsp;<input type="button" class="back" value="Back"/><br />
+		<br />
+		</form>
+	  </center>
+    </header>
+</template>
+
+<template name="task"> <!-- Format contacts -->
+  <li>
+    <button class="delete">Delete</button>
+    <span class="contact"><img src={{image}} style="width:64px;height:64px;">&nbsp;&nbsp;<strong>{{name}}</strong></span>
+  </li>
+</template>
+
+<template name="homeLogin"> <!-- Main screen after logging in -->
+<header>
+      <h1>List of Contacts</h1>
+	  <br />
+	  Logged in as: {{profileId}}&nbsp;&nbsp;&nbsp;<input type="button" class="logout" value="Logout"/><br />
+	
+</header>
+	<br />
+	<ul>
+	<br />
+	&nbsp;&nbsp;&nbsp;<button class="addPage">Add Contact</button><button class="clickHere">Click on name or picture to view details</button><br />
+	<br />
+      {{#each contacts}}
+        {{> task}}
+      {{/each}}
+    </ul>
+</template>
+
+<template name="addContact"> <!-- Page to add a contact -->
+<header>
+      <h1>Add a New Contact</h1>
+</header>
+	<ul>
+    <form class="new-contact">
+		<br />
+        &nbsp;&nbsp;<strong>Name:</strong>&nbsp;<input type="text" name="contactName" required />{{#if contactInvalid}}&nbsp;&nbsp;*Contact already listed{{/if}}<br />
+		<br />
+		&nbsp;&nbsp;<strong>Email:</strong>&nbsp;<input type="email" name="contactEmail" required /><br />
+		<br />
+		&nbsp;&nbsp;<strong>Phone:</strong>&nbsp;<input type="tel" name="contactPhone"  /><br />
+		<br />
+		&nbsp;&nbsp;<strong>Image URL:</strong>&nbsp;<input type="url" name="contactImage"  /><br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Add"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="back" value="Back"/><br />
+		<br />
+    </form>
+	</ul>
+</template>
+
+<template name="contactDetails"> <!-- Contact details page -->
+<header>
+      <h1>Contact Details for {{#each details}}{{name}}{{/each}}</h1> 
+		
+</header>
+	<ul>
+      {{#each details}}
+	  <form class="contact-details">
+	    <br />
+        &nbsp;&nbsp;<strong>Name:</strong>&nbsp;<input type="text" name="contactName"  value={{name}} />{{#if updated}}&nbsp;&nbsp;*Contact updated{{/if}}{{#if contactInvalid}}*Cannot update. Already listed{{/if}}<br />
+		<br />
+		&nbsp;&nbsp;<strong>Email:</strong>&nbsp;<input type="email" name="contactEmail"  value={{email}} /><br />
+		<br />
+		&nbsp;&nbsp;<strong>Phone:</strong>&nbsp;<input type="tel" name="contactPhone"  value={{phone}} /><br />
+		<br />
+		&nbsp;&nbsp;<strong>Image URL:</strong>&nbsp;<input type="url" name="contactImage"  value={{image}} /><br />
+		<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Update"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="back" value="Back"/><br />
+		<br />
+      </form>
+	  {{/each}}
+    </ul>
+</template>
