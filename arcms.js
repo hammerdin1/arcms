@@ -144,6 +144,8 @@ if (Meteor.isClient) {
 	  profileId = undefined;
       var instance = Template.instance();
       instance.vars.set("loggedIn", false)
+	  instance.vars.set("clickedLogin", false)
+	  instance.vars.set("clickedCreate", false)
     }
   });
   
