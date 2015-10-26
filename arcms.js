@@ -133,7 +133,7 @@ if (Meteor.isClient) {
       var name = event.target.contactName.value;
 	  var email = event.target.contactEmail.value;
 	  
-	  if(Contacts.find({name: name, email: email}).fetch({})[0] != undefined){
+	  if(Contacts.find({name: name, email: email, owner: profileId}).fetch({})[0] != undefined){
 		var instance = Template.instance();
         instance.vars.set("clicked", true)	
 	    instance.vars.set("detailed", true)
@@ -352,7 +352,7 @@ if (Meteor.isClient) {
 	  var email = event.target.contactEmail.value;
 	  var image = event.target.contactImage.value;
 	  
-	  if(Contacts.find({name: name, email: email}).fetch({})[0] == undefined){ //Add contact and navigate to homeLogin
+	  if(Contacts.find({name: name, email: email, owner: profileId}).fetch({})[0] == undefined){ //Add contact and navigate to homeLogin
 		Meteor.call("addContact", name, phone, email, image, profileId);
 		var instance = Template.instance();
         instance.vars.set("clicked", true)	
@@ -396,7 +396,7 @@ if (Meteor.isClient) {
 	  var email = event.target.contactEmail.value;
 	  var image = event.target.contactImage.value;
 	  
-	  if(Contacts.find({name: name, email: email}).fetch({})[0] == undefined){ //Updates contact info
+	  if(Contacts.find({name: name, email: email, owner: profileId}).fetch({})[0] == undefined){ //Updates contact info
 		Contacts.update({_id: contactId}, {
 		$set:{ name: name,
 			   phone: phone,
