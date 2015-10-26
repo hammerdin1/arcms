@@ -18,13 +18,13 @@
     {{> addContact}} <!-- Goes to addContact page-->
   {{/if}}
 {{else}}
-  {{#if clickedLogin}}  <!--user clicked login button on home screen -->
+  {{#if clickedLogin}}  <!--User clicked login button on home screen -->
     {{> loginHome}}  <!-- navigate to loginHome page -->
   {{else}}
-    {{#if clickedCreate}}  <!--user clicked create button on home screen -->
+    {{#if clickedCreate}}  <!--User clicked create button on home screen -->
 	  {{> loginCreate}}  <!-- navigate to loginCreate page -->
 	{{else}}
-      {{> home}}<!-- if user is not logged in, go to home page-->
+      {{> home}}<!-- if User is not logged in, go to home page-->
 	{{/if}}
   {{/if}}
 {{/if}}
@@ -46,7 +46,7 @@
       <h1>Login</h1>
 	  <center>
 	    <form class="login-home">
-		{{#if emailInvalid}} <!-- user entered invalid email -->
+		{{#if emailInvalid}} <!-- User entered invalid email -->
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;
@@ -57,7 +57,7 @@
 		<br />
 		{{/if}}
 		
-		{{#if wrong}} <!-- user entered wrong password -->
+		{{#if wrong}} <!-- User entered wrong password -->
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -79,7 +79,7 @@
       <h1>Create account</h1>
 	  <center>
 	    <form class="login-create">
-	    {{#if emailTaken}} <!-- user entered email that is being used-->
+	    {{#if emailTaken}} <!-- User entered email that is being used-->
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;
